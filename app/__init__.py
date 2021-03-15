@@ -13,6 +13,9 @@ from elasticsearch import Elasticsearch
 from redis import Redis
 import rq
 from config import Config
+import pymysql
+
+pymysql.install_as_MySQLdb()
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -41,13 +44,13 @@ def create_app(config_class=Config):
     app.redis = Redis.from_url(app.config['REDIS_URL'])
     app.task_queue = rq.Queue('microblog-tasks', connection=app.redis)
 
-    from app.errors import bp as errors_bp
+    from app.errors import _errors as errors_bp
     app.register_blueprint(errors_bp)
 
     from app.auth import _auth as auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
-    from app.main import bp as main_bp
+    from app.main import _main as main_bp
     app.register_blueprint(main_bp)
 
     from app.api import bp as api_bp

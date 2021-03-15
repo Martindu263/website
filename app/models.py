@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from hashlib import md5
 import json
 import os
+from datetime import datetime
 from time import time
 from flask import current_app, url_for
 from flask_login import UserMixin
@@ -12,6 +13,7 @@ import redis
 import rq
 from app import db, login
 from app.search import add_to_index, remove_from_index, query_index
+from sqlalchemy.sql import func
 
 
 class SearchableMixin(object):
@@ -91,8 +93,11 @@ followers = db.Table(
 class User(UserMixin, PaginatedAPIMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
+    phonenumber = db.Column(db.String(11), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
+    isteacher = db.Column(db.String(6), default=False)
     password_hash = db.Column(db.String(128))
+    time_created = db.Column(db.DateTime(timezone=True), server_default=func.now())
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)

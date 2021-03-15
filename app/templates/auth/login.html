@@ -2,16 +2,16 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-    <h1>{{ _('Sign In') }}</h1>
+    <h1>{{ _('登录') }}</h1>
     <div class="row">
         <div class="col-md-4">
             {{ wtf.quick_form(form) }}
         </div>
     </div>
     <br>
-    <p>{{ _('New User?') }} <a href="{{ url_for('auth.register') }}">{{ _('Click to Register!') }}</a></p>
+    <p>{{ _('新用户?') }} <a href="{{ url_for('auth.register') }}">{{ _('点击这里注册账号!') }}</a></p>
     <p>
-        {{ _('Forgot Your Password?') }}
-        <a href="{{ url_for('auth.reset_password_request') }}">{{ _('Click to Reset It') }}</a>
+        {{ _('忘记了密码?') }}
+        <a href="{{ url_for('auth.reset_password_request') }}">{{ _('点击这里重置密码') }}</a>
     </p>
 {% endblock %}

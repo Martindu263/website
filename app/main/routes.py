@@ -9,10 +9,10 @@ from app.main.forms import EditProfileForm, EmptyForm, PostForm, SearchForm, \
     MessageForm
 from app.models import User, Post, Message, Notification
 from app.translate import translate
-from app.main import bp
+from app.main import _main
 
 
-@bp.before_app_request
+@_main.before_app_request
 def before_request():
     if current_user.is_authenticated:
         current_user.last_seen = datetime.utcnow()
@@ -21,8 +21,8 @@ def before_request():
     g.locale = str(get_locale())
 
 
-@bp.route('/', methods=['GET', 'POST'])
-@bp.route('/index', methods=['GET', 'POST'])
+@_main.route('/', methods=['GET', 'POST'])
+@_main.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
     form = PostForm()
@@ -48,7 +48,7 @@ def index():
                            prev_url=prev_url)
 
 
-@bp.route('/explore')
+@_main.route('/explore')
 @login_required
 def explore():
     page = request.args.get('page', 1, type=int)
@@ -63,7 +63,7 @@ def explore():
                            prev_url=prev_url)
 
 
-@bp.route('/user/<username>')
+@_main.route('/user/<username>')
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
@@ -79,7 +79,7 @@ def user(username):
                            next_url=next_url, prev_url=prev_url, form=form)
 
 
-@bp.route('/user/<username>/popup')
+@_main.route('/user/<username>/popup')
 @login_required
 def user_popup(username):
     user = User.query.filter_by(username=username).first_or_404()
@@ -87,7 +87,7 @@ def user_popup(username):
     return render_template('user_popup.html', user=user, form=form)
 
 
-@bp.route('/edit_profile', methods=['GET', 'POST'])
+@_main.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
     form = EditProfileForm(current_user.username)
@@ -104,7 +104,7 @@ def edit_profile():
                            form=form)
 
 
-@bp.route('/follow/<username>', methods=['POST'])
+@_main.route('/follow/<username>', methods=['POST'])
 @login_required
 def follow(username):
     form = EmptyForm()
@@ -124,7 +124,7 @@ def follow(username):
         return redirect(url_for('main.index'))
 
 
-@bp.route('/unfollow/<username>', methods=['POST'])
+@_main.route('/unfollow/<username>', methods=['POST'])
 @login_required
 def unfollow(username):
     form = EmptyForm()
@@ -144,7 +144,7 @@ def unfollow(username):
         return redirect(url_for('main.index'))
 
 
-@bp.route('/translate', methods=['POST'])
+@_main.route('/translate', methods=['POST'])
 @login_required
 def translate_text():
     return jsonify({'text': translate(request.form['text'],
@@ -152,7 +152,7 @@ def translate_text():
                                       request.form['dest_language'])})
 
 
-@bp.route('/search')
+@_main.route('/search')
 @login_required
 def search():
     if not g.search_form.validate():
@@ -168,7 +168,7 @@ def search():
                            next_url=next_url, prev_url=prev_url)
 
 
-@bp.route('/send_message/<recipient>', methods=['GET', 'POST'])
+@_main.route('/send_message/<recipient>', methods=['GET', 'POST'])
 @login_required
 def send_message(recipient):
     user = User.query.filter_by(username=recipient).first_or_404()
@@ -185,7 +185,7 @@ def send_message(recipient):
                            form=form, recipient=recipient)
 
 
-@bp.route('/messages')
+@_main.route('/messages')
 @login_required
 def messages():
     current_user.last_message_read_time = datetime.utcnow()
@@ -203,7 +203,7 @@ def messages():
                            next_url=next_url, prev_url=prev_url)
 
 
-@bp.route('/export_posts')
+@_main.route('/export_posts')
 @login_required
 def export_posts():
     if current_user.get_task_in_progress('export_posts'):
@@ -214,7 +214,7 @@ def export_posts():
     return redirect(url_for('main.user', username=current_user.username))
 
 
-@bp.route('/notifications')
+@_main.route('/notifications')
 @login_required
 def notifications():
     since = request.args.get('since', 0.0, type=float)
