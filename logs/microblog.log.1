@@ -1,0 +1,119 @@
+2021-03-15 19:58:41,161 ERROR: Exception on /auth/confirm [GET] [in /Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py:1891]
+Traceback (most recent call last):
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/Users/weiqidu/project/website_new/app/auth/routes.py", line 83, in resend_confirmation
+    send_confirm_email(user)
+  File "/Users/weiqidu/project/website_new/app/auth/email.py", line 17, in send_confirm_email
+    token = user.generate_confirmation_token()
+AttributeError: 'NoneType' object has no attribute 'generate_confirmation_token'
+2021-03-15 19:59:00,292 INFO: Microblog startup [in /Users/weiqidu/project/website_new/app/__init__.py:92]
+2021-03-15 19:59:05,532 ERROR: Exception on /auth/confirm [GET] [in /Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py:1891]
+Traceback (most recent call last):
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/Users/weiqidu/project/website_new/app/auth/routes.py", line 83, in resend_confirmation
+    send_confirm_email(user)
+  File "/Users/weiqidu/project/website_new/app/auth/email.py", line 17, in send_confirm_email
+    token = user.generate_confirmation_token()
+AttributeError: 'NoneType' object has no attribute 'generate_confirmation_token'
+2021-03-15 20:02:38,238 INFO: Microblog startup [in /Users/weiqidu/project/website_new/app/__init__.py:92]
+2021-03-15 20:02:48,005 ERROR: Exception on /auth/confirm [GET] [in /Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py:1891]
+Traceback (most recent call last):
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/Users/weiqidu/project/website_new/app/auth/routes.py", line 83, in resend_confirmation
+    send_confirm_email(current_user.email)
+  File "/Users/weiqidu/project/website_new/app/auth/email.py", line 17, in send_confirm_email
+    token = user.generate_confirmation_token()
+AttributeError: 'str' object has no attribute 'generate_confirmation_token'
+2021-03-15 20:09:51,019 INFO: Microblog startup [in /Users/weiqidu/project/website_new/app/__init__.py:92]
+2021-03-15 20:09:53,554 ERROR: Exception on /auth/confirm [GET] [in /Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py:1891]
+Traceback (most recent call last):
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask_login/utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "/Users/weiqidu/project/website_new/app/auth/routes.py", line 81, in resend_confirmation
+    send_confirm_email(current_user.email)
+  File "/Users/weiqidu/project/website_new/app/auth/email.py", line 17, in send_confirm_email
+    token = user.generate_confirmation_token()
+AttributeError: 'str' object has no attribute 'generate_confirmation_token'
+2021-03-15 20:18:30,801 INFO: Microblog startup [in /Users/weiqidu/project/website_new/app/__init__.py:92]
+2021-03-15 20:21:26,674 INFO: Microblog startup [in /Users/weiqidu/project/website_new/app/__init__.py:92]
+2021-03-15 20:22:25,561 ERROR: Exception on /auth/register [POST] [in /Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py:1891]
+Traceback (most recent call last):
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/weiqidu/project/website_new/app/auth/routes.py", line 42, in register
+    if form.validate_on_submit():
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/flask_wtf/form.py", line 100, in validate_on_submit
+    return self.is_submitted() and self.validate()
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/wtforms/form.py", line 310, in validate
+    return super(Form, self).validate(extra)
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/wtforms/form.py", line 152, in validate
+    if not field.validate(self, extra):
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/wtforms/fields/core.py", line 204, in validate
+    stop_validation = self._run_validation_chain(form, chain)
+  File "/Users/weiqidu/project/website_new/venv/lib/python3.8/site-packages/wtforms/fields/core.py", line 224, in _run_validation_chain
+    validator(form, self)
+  File "/Users/weiqidu/project/website_new/app/auth/forms.py", line 41, in validate_phonenumber
+    user = User.query.filter_by(phonenumber=phonenumber.data).first()
+NameError: name 'phonenumber' is not defined
+2021-03-15 20:23:43,816 INFO: Microblog startup [in /Users/weiqidu/project/website_new/app/__init__.py:92]

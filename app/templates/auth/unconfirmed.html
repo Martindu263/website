@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <h1>{{ _('你好, %(username)s!', username=current_user.username) }}</h1>
+    <h3>您还没有激活您的账号</h3>
+    <h5>您需要先激活您的账号，请检查您的邮箱，并且点击邮箱的激活链接</h5>
+
+    <h5>未收到邮件？</h5>
+    <h5><a href="{{ url_for('auth.resend_confirmation') }}">{{ _('点击这里重新发送!') }}</a></h5>
+
+    
+{% endblock %}

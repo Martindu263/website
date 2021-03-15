@@ -1,0 +1,7 @@
+<p>您好 {{ user.username }},</p>
+<p>欢迎来到<b>升学内参</b>!</p>
+<p>激活账号<a href="{{ url_for('auth.confirm', token=token, _external=True) }}">请点击</a>.</p>
+<p>同样，你也可以复制链接到你的浏览器里:</p>
+<p>{{ url_for('auth.confirm', token=token, _external=True) }}</p>
+<p>感谢您的注册</p>
+<p>升学内参团队</p>

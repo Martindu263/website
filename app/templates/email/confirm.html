@@ -1,0 +1,12 @@
+<p>您好 {{ user.username }},</p>
+<p>欢迎来到升学内参！</p>
+<p>
+    激活你的账号请点击以下链接:
+    <a href="{{ url_for('auth.confirm', token=token, _external=True) }}">
+        点击这里
+    </a>.
+</p>
+<p>也可以将链接发送到地址栏直接访问</p>
+<p>{{ url_for('auth.confirm', token=token, _external=True) }}</p>
+<p>如果不是本人操作，请忽略</p>
+<p>升学内参团队</p>

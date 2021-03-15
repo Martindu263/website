@@ -1,13 +1,13 @@
 from flask import render_template, redirect, url_for, flash, request
 from werkzeug.urls import url_parse
-from flask_login import login_user, logout_user, current_user
+from flask_login import login_user, logout_user, current_user, login_required
 from flask_babel import _
 from app import db
 from app.auth import _auth
 from app.auth.forms import LoginForm, RegistrationForm, \
     ResetPasswordRequestForm, ResetPasswordForm
 from app.models import User
-from app.auth.email import send_password_reset_email
+from app.auth.email import send_password_reset_email, send_confirm_email
 
 
 @_auth.route('/login', methods=['GET', 'POST'])
@@ -44,10 +44,43 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash(_('Congratulations, you are now a registered user!'))
+        token = user.generate_confirmation_token()
+        send_confirm_email(user)
+        flash(_('一封待确认的邮件已发送至你的邮箱（由于部分邮箱运营商策略的问题，可能会自动归档验证邮件进入垃圾箱，如果收件箱没有收到邮件请刷新或者去垃圾箱查看）。'))
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', title=_('Register'),
                            form=form)
+
+@_auth.route('/confirm/<token>')
+@login_required
+def confirm(token):
+    if current_user.confirmed:
+        return redirect(url_for('main.index'))
+    if current_user.confirm(token):
+        db.session.commit()
+        flash('您已经成功激活您的账户！')
+    else:
+        flash('激活请求已超时或出现错误，请重新尝试')
+    return redirect(url_for('auth.login'))
+
+@_auth.before_app_request
+def before_request():
+    if current_user.is_authenticated and not current_user.confirmed and request.blueprint != 'auth'and request.endpoint != 'static':
+        return redirect(url_for('auth.unconfirmed'))
+
+@_auth.route('/unconfirmed')
+def unconfirmed():
+    if current_user.is_anonymous or current_user.confirmed:
+        return redirect(url_for('main.index'))
+    return render_template('auth/unconfirmed.html')
+
+@_auth.route('/confirm')
+@login_required
+def resend_confirmation():
+    token = current_user.generate_confirmation_token()
+    send_confirm_email(current_user)
+    flash('一封新的确认邮件已经发送到你的邮箱')
+    return redirect(url_for('main.index'))
 
 
 @_auth.route('/reset_password_request', methods=['GET', 'POST'])

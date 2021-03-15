@@ -24,7 +24,7 @@ class RegistrationForm(FlaskForm):
     password = PasswordField(_l('密码'), validators=[DataRequired(),
         Regexp('^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$', 0, '密码必须是包含大小写字母和数字的组合，不能使用特殊字符，长度小于20个字符')])
     password2 = PasswordField(_l('再次输入密码'), validators=[DataRequired(), EqualTo('password', message='两次密码必须一致')])
-    isteacher = RadioField('是否是老师', choices=[('t', '教师'), ('s','学生或家长')], validators=[DataRequired()])
+    isteacher = RadioField(_l('是否是老师'), choices=[('t', '教师'), ('s','学生或家长')], validators=[DataRequired()])
     submit = SubmitField(_l('提交注册'))
 
     def validate_username(self, username):
@@ -37,7 +37,7 @@ class RegistrationForm(FlaskForm):
         if user is not None:
             raise ValidationError(_('邮箱重复了，请更换邮箱'))
 
-    def validate_phonenumber(self, email):
+    def validate_phonenumber(self, phonenumber):
         user = User.query.filter_by(phonenumber=phonenumber.data).first()
         if user is not None:
             raise ValidationError(_('该手机号码已注册，请更换手机号码'))

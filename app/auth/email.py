@@ -12,3 +12,13 @@ def send_password_reset_email(user):
                                          user=user, token=token),
                html_body=render_template('email/reset_password.html',
                                          user=user, token=token))
+
+def send_confirm_email(user):
+    token = user.generate_confirmation_token()
+    send_email(_('[Microblog] 激活你的账号'),
+               sender=current_app.config['ADMINS'][0],
+               recipients=[user.email],
+               text_body=render_template('auth/email/confirm.txt',
+                                         user=user, token=token),
+               html_body=render_template('auth/email/confirm.html',
+                                         user=user, token=token))
