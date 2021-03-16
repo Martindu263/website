@@ -36,6 +36,28 @@ class Role(db.Model):
         if self.permissions is None:
             self.permissions = 0
 
+    @staticmethod
+    def insert_roles():
+        roles = {
+            'User': [Permission.FOLLOW, Permission.COMMENT, Permission.WRITE],
+            'Moderator': [Permission.FOLLOW, Permission.COMMENT,
+                          Permission.WRITE, Permission.MODERATE],
+            'Administrator': [Permission.FOLLOW, Permission.COMMENT,
+                              Permission.WRITE, Permission.MODERATE,
+                              Permission.ADMIN],
+        }
+        default_role = 'User'
+        for r in roles:
+            role = Role.query.filter_by(name=r).first()
+            if role is None:
+                role = Role(name=r)
+            role.reset_permissions()
+            for perm in roles[r]:
+                role.add_permission(perm)
+            role.default = (role.name == default_role)
+            db.session.add(role)
+        db.session.commit()
+
     def add_permission(self, perm):
         if not self.has_permission(perm):
             self.permissions += perm
@@ -50,24 +72,6 @@ class Role(db.Model):
     def has_permission(self, perm):
         return self.permissions & perm == perm
 
-    @staticmethod
-    def insert_roles():
-        roles = {
-                'User':[Permission.FOLLOW, Permission.COMMENT, Permission.WRITE],
-                'Moderator':[Permission.FOLLOW, Permission.COMMENT, Permission.WRITE, Permission.MODERATE],
-                'Administrator':[Permission.FOLLOW, Permission.COMMENT, Permission.WRITE, Permission.MODERATE, Permission.ADMIN],
-            }
-        default_role = 'User'
-        for r in roles:
-            role = Role.query.filter_by(name=r).first()
-            if role is None:
-                role = Role(name=r)
-            role.reset_permissions()
-            for perm in roles[r]:
-                role.add_permission(perm)
-            role.default = (role.name == default_role)
-            db.session.add(role)
-        db.session.commit()
 
 class SearchableMixin(object):
     @classmethod
@@ -146,6 +150,7 @@ followers = db.Table(
 class User(UserMixin, PaginatedAPIMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     phonenumber = db.Column(db.String(11), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     isteacher = db.Column(db.String(6), default=False)
@@ -329,7 +334,8 @@ class AnonymousUser(AnonymousUserMixin):
         return False
 
     def is_administrator(self):
-        return False        
+        return False      
+
 login_manager.anonmyous_user = AnonymousUser
 
 @login.user_loader

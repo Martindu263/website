@@ -7,4 +7,9 @@ def inject_permissions():
 	return dict(Permission=Permission)
 	pass
 
-from app.main import routes
+from ..models import Permission
+
+
+@_main.app_context_processor
+def inject_permissions():
+    return dict(Permission=Permission)
