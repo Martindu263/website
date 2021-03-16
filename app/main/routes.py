@@ -6,10 +6,11 @@ from flask_babel import _, get_locale
 from guess_language import guess_language
 from app import db
 from app.main.forms import EditProfileForm, EmptyForm, PostForm, SearchForm, \
-    MessageForm
-from app.models import User, Post, Message, Notification
+    MessageForm, EditProfileAdminForm
+from app.models import User, Post, Message, Notification, Role
 from app.translate import translate
 from app.main import _main
+from ..decorators import admin_required
 
 
 @_main.before_app_request
@@ -95,13 +96,38 @@ def edit_profile():
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
         db.session.commit()
-        flash(_('Your changes have been saved.'))
+        flash(_('更改成功'))
         return redirect(url_for('main.edit_profile'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
     return render_template('edit_profile.html', title=_('Edit Profile'),
                            form=form)
+
+@_main.route('/edit_profile/<int:id>', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def edit_profile_admin(id):
+    user = User.query.get_or_404(id)
+    form = EditProfileAdminForm(user=user)
+    if form.validate_on_submit():
+        user.username = form.username.data
+        user.phonenumber = form.phonenumber.data
+        user.email = form.email.data
+        user.confirmed = form.confirmed.data
+        user.role = Role.query.get(form.role.data)
+        user.about_me = form.about_me.data
+        db.session.add(user)
+        db.session.commit()
+        flash('信息已经更新完毕')
+        return redirect(url_for('.user', username=user.username))
+    form.username.data = user.username
+    form.phonenumber.data = user.phonenumber
+    form.email.data = user.email
+    form.confirmed.data = user.confirmed
+    form.role.data = user.role_id
+    form.about_me.data = user.about_me
+    return render_template('edit_profile.html', form=form, user=user)
 
 
 @_main.route('/follow/<username>', methods=['POST'])
